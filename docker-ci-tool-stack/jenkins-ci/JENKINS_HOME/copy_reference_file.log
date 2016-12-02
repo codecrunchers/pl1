@@ -1,0 +1,52 @@
+--- Copying files at Mon Nov 14 22:16:29 UTC 2016
+INSTALLED .ssh/id_rsa.pub
+INSTALLED .ssh/id_rsa
+INSTALLED credentials.xml
+INSTALLED maven-global-settings-files.xml
+INSTALLED hudson.plugins.groovy.Groovy.xml
+INSTALLED init.groovy.d/tcp-slave-agent-port.groovy
+INSTALLED plugins/credentials.jpi : 2.1.1
+INSTALLED plugins/workflow-basic-steps.jpi : 2.0
+INSTALLED plugins/jquery-detached.jpi : 1.2.1
+INSTALLED plugins/workflow-cps.jpi : 2.6
+INSTALLED plugins/ssh-credentials.jpi : 1.12
+INSTALLED plugins/workflow-step-api.jpi : 2.1
+INSTALLED plugins/junit.jpi : 1.13
+INSTALLED plugins/momentjs.jpi : 1.1.1
+INSTALLED plugins/pipeline-stage-step.jpi : 2.1
+INSTALLED plugins/icon-shim.jpi : 2.0.3
+INSTALLED plugins/workflow-support.jpi : 2.1
+INSTALLED plugins/matrix-project.jpi : 1.7
+INSTALLED plugins/durable-task.jpi : 1.10
+INSTALLED plugins/jackson2-api.jpi : 2.5.4
+INSTALLED plugins/structs.jpi : 1.2
+INSTALLED plugins/workflow-scm-step.jpi : 2.1
+INSTALLED plugins/metrics.jpi : 3.1.2.9
+INSTALLED plugins/workflow-multibranch.jpi : 2.8
+INSTALLED plugins/mock-slave.jpi : 1.9
+INSTALLED plugins/pipeline-build-step.jpi : 2.1
+INSTALLED plugins/dependency-check-jenkins-plugin.jpi : 1.4.3
+INSTALLED plugins/cloudbees-folder.jpi : 5.12
+INSTALLED plugins/ace-editor.jpi : 1.1
+INSTALLED plugins/git-client.jpi : 1.19.6
+INSTALLED plugins/pipeline-stage-view.jpi : 1.4
+INSTALLED plugins/maven-plugin.jpi : 2.4
+INSTALLED plugins/workflow-api.jpi : 2.1
+INSTALLED plugins/workflow-durable-task-step.jpi : 2.2
+INSTALLED plugins/mailer.jpi : 1.17
+INSTALLED plugins/branch-api.jpi : 1.10
+INSTALLED plugins/analysis-core.jpi : 1.79
+INSTALLED plugins/workflow-job.jpi : 2.3
+INSTALLED plugins/script-security.jpi : 1.19
+INSTALLED plugins/workflow-cps-global-lib.jpi : 2.0
+INSTALLED plugins/scm-api.jpi : 1.2
+INSTALLED plugins/workflow-aggregator.jpi : 2.2
+INSTALLED plugins/pipeline-rest-api.jpi : 1.4
+INSTALLED plugins/handlebars.jpi : 1.1.1
+INSTALLED plugins/pipeline-input-step.jpi : 2.0
+INSTALLED plugins/urltrigger.jpi : 0.41
+INSTALLED plugins/git-server.jpi : 1.6
+INSTALLED plugins/git.jpi : 2.5.0
+--- Copying files at Mon Nov 14 22:16:30 UTC 2016
+--- Copying files at Mon Nov 14 23:16:27 UTC 2016
+--- Copying files at Mon Nov 14 23:16:27 UTC 2016

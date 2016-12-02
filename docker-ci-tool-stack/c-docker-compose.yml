@@ -1,0 +1,58 @@
+version: '2'
+
+networks:
+    prodnetwork:
+        driver: bridge
+
+services:
+    consul:
+        hostname: "consul1"
+        container_name: "consul1"
+        build: ./consul/
+        expose:
+            - "8500"
+            - "8600"
+            - "8400"
+        ports:
+            - "8500:8500"
+            - "8600:8600"
+            - "8400:8400"
+        networks:
+            - prodnetwork
+        command:
+            "-server -bootstrap -ui-dir /ui"
+    nexus:
+        image: "realex/nexus"
+        hostname: "nexus"
+        expose:
+            - "8081"
+        ports:
+            - "8081:8081"
+        networks:
+            - prodnetwork
+
+    registrator:
+        image: "gliderlabs/registrator"
+        hostname: "registrator"
+        container_name: "registrator"
+        networks:
+            - prodnetwork
+        depends_on:
+            - "consul"
+        volumes:
+             - "/var/run/docker.sock:/tmp/docker.sock"
+        command:
+            "consul://consul1:8500"
+
+
+
+
+
+
+
+
+
+
+
+
+

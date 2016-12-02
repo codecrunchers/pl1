@@ -1,0 +1,183 @@
+version: '2'
+
+networks:
+  prodnetwork:
+    driver: bridge
+
+services:
+ nexus:
+  hostname: 'nexus'
+  image:  ci/nexus
+  ports:
+    - "18081:8081"
+  networks:
+    - prodnetwork
+  volumes:
+   - $DOCKER_VOLHOME/nexus/nexus-data:/nexus-data
+
+ jenkins:
+  hostname: 'jenkins'
+  mem_limit: 800m
+  memswap_limit: 850m
+  privileged: true
+  build: jenkins-ci
+  hostname: jenkins
+  ports:
+    - "18080:8080"
+  networks:
+    - prodnetwork
+  volumes:
+    -  jenkins_home:/var/jenkins_home
+  depends_on:
+    - nexus
+    - gitlab
+    - sonar
+  environment:
+    - NEXUS_PORT=8081
+    - SONAR_PORT=9000
+    - SONAR_DB_PORT=5432
+    - TRY_UPGRADE_IF_NO_MARKER=true
+
+ sonar:
+  build: ./sonar
+  hostname: sonar
+  ports:
+   - "19000:9000"
+   - "5432:5432"
+  networks:
+   - prodnetwork
+  depends_on:
+   - sonardb
+  environment:
+   - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
+
+ sonardb:
+  mem_limit: 800m
+  memswap_limit: 850m
+  privileged: true
+  networks:
+    - prodnetwork
+  image: postgres
+  environment:
+   - POSTGRES_USER=sonar
+   - POSTGRES_PASSWORD=sonar
+   - SONARQUBE_HOME:$DOCKER_VOLHOME/sonar
+  volumes:
+   - /opt/postgres/data:/var/lib/postgresql/data
+
+ redis:
+  restart: always
+  image: sameersbn/redis:latest
+  command:
+   - --loglevel warning
+  volumes:
+   - $DOCKER_VOLHOME/redis:/var/lib/redis:Z
+  networks:
+   - prodnetwork
+
+
+ postgresql:
+  restart: always
+  image: sameersbn/postgresql:9.5-3
+  volumes:
+   - $DOCKER_VOLHOME/postgresql:/var/lib/postgresql:Z
+  environment:
+   - DB_USER=gitlab
+   - DB_PASS=password
+   - DB_NAME=gitlabhq_production
+   - DB_EXTENSION=pg_trgm
+  networks:
+   - prodnetwork
+
+ gitlab:
+  restart: always
+  image: sameersbn/gitlab:latest
+  depends_on:
+   - redis
+   - postgresql
+  ports:
+   - "10080:80"
+   - "10022:22"
+  volumes:
+   - $DOCKER_VOLHOME/gitlab:/home/git/data:Z
+  environment:
+   - DEBUG=true
+
+   - DB_ADAPTER=postgresql
+   - DB_HOST=postgresql
+   - DB_PORT=5432
+   - DB_USER=gitlab
+   - DB_PASS=password
+   - DB_NAME=gitlabhq_production
+
+   - REDIS_HOST=redis
+   - REDIS_PORT=6379
+
+   - TZ=Asia/Kolkata
+   - GITLAB_TIMEZONE=Kolkata
+
+   - GITLAB_HTTPS=false
+   - SSL_SELF_SIGNED=false
+
+   - GITLAB_HOST=localhost
+   - GITLAB_PORT=10080
+   - GITLAB_SSH_PORT=10022
+   - GITLAB_RELATIVE_URL_ROOT=
+   - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string
+   - GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alphanumeric-string
+   - GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alphanumeric-string
+
+   - GITLAB_ROOT_PASSWORD=
+   - GITLAB_ROOT_EMAIL=
+
+   - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
+   - GITLAB_NOTIFY_PUSHER=false
+
+   - GITLAB_EMAIL=notifications@example.com
+   - GITLAB_EMAIL_REPLY_TO=noreply@example.com
+   - GITLAB_INCOMING_EMAIL_ADDRESS=reply@example.com
+
+   - GITLAB_BACKUP_SCHEDULE=daily
+   - GITLAB_BACKUP_TIME=01:00
+
+   - SMTP_ENABLD=false
+   - SMTP_DOMAIN=www.example.com
+   - SMTP_HOST=smtp.gmail.com
+   - SMTP_PORT=587
+   - SMTP_USER=mailer@example.com
+   - SMTP_PASS=password
+   - SMTP_STARTTLS=true
+   - SMTP_AUTHENTICATION=login
+
+   - IMAP_ENABLED=false
+   - IMAP_HOST=imap.gmail.com
+   - IMAP_PORT=993
+   - IMAP_USER=mailer@example.com
+   - IMAP_PASS=password
+   - IMAP_SSL=true
+   - IMAP_STARTTLS=false
+
+   - OAUTH_ENABLED=false
+   - OAUTH_AUTO_SIGN_IN_WITH_PROVIDER=
+   - OAUTH_ALLOW_SSO=
+   - OAUTH_BLOCK_AUTO_CREATED_USERS=true
+   - OAUTH_AUTO_LINK_LDAP_USER=false
+   - OAUTH_AUTO_LINK_SAML_USER=false
+   - OAUTH_EXTERNAL_PROVIDERS=
+
+   - OAUTH_CAS3_LABEL=cas3
+   - OAUTH_CAS3_SERVER=
+   - OAUTH_CAS3_DISABLE_SSL_VERIFICATION=false
+   - OAUTH_CAS3_LOGIN_URL=/cas/login
+   - OAUTH_CAS3_VALIDATE_URL=/cas/p3/serviceValidate
+   - OAUTH_CAS3_LOGOUT_URL=/cas/logout
+  mem_limit: 800m
+  memswap_limit: 850m
+  privileged: true
+  hostname: 'gitlab'
+  networks:
+   - prodnetwork
+
+volumes:
+ nexus-data:
+ jenkins_home:

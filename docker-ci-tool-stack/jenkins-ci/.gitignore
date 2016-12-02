@@ -1,0 +1,9 @@
+JENKINS_HOME/plugins
+JENKINS_HOME/cache
+JENKINS_HOME/log
+JENKINS_HOME/logs
+JENKINS_HOME/updates
+JENKINS_HOME/war
+
+
+

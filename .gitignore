@@ -1,0 +1,9 @@
+docker-ci-tool-stack/jenkins-ci/JENKINS_HOME/plugins
+docker-ci-tool-stack/jenkins-ci/JENKINS_HOME/cache
+docker-ci-tool-stack/jenkins-ci/JENKINS_HOME/log
+docker-ci-tool-stack/jenkins-ci/JENKINS_HOME/logs
+docker-ci-tool-stack/jenkins-ci/JENKINS_HOME/updates
+docker-ci-tool-stack/jenkins-ci/JENKINS_HOME/war
+
+
+
