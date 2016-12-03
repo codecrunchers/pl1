@@ -7,8 +7,8 @@ networks:
 services:
  jenkins:
   hostname: 'jenkins'
-  mem_limit: 800m
-  memswap_limit: 850m
+#  mem_limit: 800m
+# memswap_limit: 850m
   privileged: true
   build: ./jenkins-ci
   hostname: jenkins
@@ -17,7 +17,7 @@ services:
   networks:
     - prodnetwork
   volumes:
-    -  jenkins_home:/var/jenkins_home
+     - jenkins_home:/var/jenkins_home:Z
 
 volumes:
  jenkins_home:

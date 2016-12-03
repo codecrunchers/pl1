@@ -20,7 +20,6 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
 RUN chown -R jenkins.jenkins /usr/share/jenkins/ref
 
 COPY config/config.xml /usr/share/jenkins/ref/config.xml
-COPY config/config.xml /usr/share/jenkins/ref/config.xml
 
 
 # Jenkins Settings, i.e. Maven, Groovy, ...
@@ -39,7 +38,6 @@ RUN echo 2.0 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
 RUN mkdir /tmp/files
 COPY run.sh /usr/local/bin/
 RUN chmod a+x /usr/local/bin/run.sh
-ADD JENKINS_HOME /var/jenkins_home
 
 EXPOSE 8080 8081 9418
 USER jenkins
