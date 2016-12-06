@@ -39,7 +39,7 @@ RUN mkdir /tmp/files
 COPY run.sh /usr/local/bin/
 RUN chmod a+x /usr/local/bin/run.sh
 
-EXPOSE 8080 8081 9418
+EXPOSE 8080 9418
 USER jenkins
 
 CMD /usr/local/bin/run.sh
