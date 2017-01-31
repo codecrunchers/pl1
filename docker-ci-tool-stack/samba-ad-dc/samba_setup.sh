@@ -42,6 +42,8 @@ samba-tool domain provision \
 
 # Move smb.conf
 mv /etc/samba/smb.conf /var/lib/samba/private/smb.conf
+#Fix Auth
+sed  -i 's/\[global\]/\[global\]\r\n\t\tldap server require strong auth = no/' /var/lib/samba/private/smb.conf
 
 # Update dns-forwarder if required
 [ -n "$SAMBA_DNS_FORWARDER" ] \

@@ -1,17 +1,50 @@
 version: '2'
+
+
 services:
+
  samba:
-    container_name: samba
-    image: samba-ad-dc
-    tty: true
-    hostname: samba
-    domainname: test.local
-    environment:
-        - SAMBA_REALM=test.local
-        - SAMBA_DOMAIN=test
-        - SAMBA_HOST_IP=172.17.0.1
-        - SAMBA_PASSWORD=Password1!
-    volumes:
-        - /home/alan/devel/docker-volumes/samba:/var/lib/samba
+  container_name: samba
+  image: samba-ad-dc
+  tty: true
+  hostname: samba
+  domainname: test.local
+  environment:
+   - SAMBA_REALM=test.local
+   - SAMBA_DOMAIN=test
+   - SAMBA_HOST_IP=172.17.0.1
+   - SAMBA_PASSWORD=Password1!
+  volumes:
+   - samba:/var/lib/samba
+  ports:
+    - "636:636"
+    - "389:389"
+
+ jenkins:
+  hostname: jenkins
+  privileged: true
+  build: jenkins-ci
+  hostname: jenkins
+  ports:
+    - "18080:8080"
+  volumes:
+    -  jenkins_home:/var/jenkins_home
+  depends_on:
+    - samba
+  environment:
+    - TRY_UPGRADE_IF_NO_MARKER=true
+
+ nexus:
+  hostname: nexus
+  image:  sonatype/nexus3
+  ports:
+    - "18081:8081"
+  volumes:
+   - nexus_data:/nexus-data
 
 
+
+volumes:
+    samba:
+    jenkins_home:
+    nexus_data:

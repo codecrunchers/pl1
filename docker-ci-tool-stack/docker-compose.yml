@@ -8,7 +8,7 @@ services:
 
  samba:
   container_name: samba
-  image: samba-ad-dc
+  image: ci/samba-ad-dc
   tty: true
   hostname: samba
   domainname: test.local
@@ -90,7 +90,7 @@ services:
   command:
    - --loglevel warning
   volumes:
-   - $DOCKER_VOLHOME/redis:/var/lib/redis:Z
+   - redis:/var/lib/redis:Z
   networks:
    - prodnetwork
 
@@ -101,7 +101,7 @@ services:
   volumes:
       #The Z option tells Docker to label the content with a private unshared label. Only the current container can use a private volume.
       #The z option tells Docker that two containers share the volume content
-   - $DOCKER_VOLHOME/postgresql:/var/lib/postgresql:Z
+   - postgresql:/var/lib/postgresql:Z
   environment:
    - DB_USER=gitlab
    - DB_PASS=password
@@ -120,9 +120,21 @@ services:
    - "10080:80"
    - "10022:22"
   volumes:
-   - $DOCKER_VOLHOME/gitlab:/home/git/data:Z
+   - gitlab:/home/git/data:Z
   environment:
    - DEBUG=true
+   - DEBUG=true
+   - LDAP_ENABLED=true
+   - LDAP_HOST=samba
+   - LDAP_LABEL=Samba
+   - LDAP_PORT=3268
+   - LDAP_METHOD=plain
+   - LDAP_BIND_DN='cn=adauth,cn=Users,dc=TEST,dc=local'
+   - LDAP_PASS=Password1!
+   - LDAP_ACTIVE_DIRECTORY=true
+   - LDAP_ALLOW_USERNAME_OR_EMAIL_LOGIN=true
+   - LDAP_BLOCK_AUTO_CREATED_USERS=false
+   - LDAP_BASE='cn=Users,dc=TEST,dc=local'
 
    - DB_ADAPTER=postgresql
    - DB_HOST=postgresql
@@ -178,7 +190,7 @@ services:
    - IMAP_SSL=true
    - IMAP_STARTTLS=false
 
-   - OAUTH_ENABLED=false
+   - OAUTH_ENABLED=true
    - OAUTH_AUTO_SIGN_IN_WITH_PROVIDER=
    - OAUTH_ALLOW_SSO=
    - OAUTH_BLOCK_AUTO_CREATED_USERS=true
@@ -201,7 +213,9 @@ services:
 
 volumes:
  jenkins_home:
+     #      driver: "flocker"
  sonarqube_conf:
+     #      driver: "flocker"
  sonarqube_data:
  sonarqube_extensions:
  sonarqube_bundled-plugins:
@@ -209,3 +223,7 @@ volumes:
  sonardb_postgresql:
  nexus_data:
  samba:
+ redis:
+ postgresql:
+ gitlab:
+
