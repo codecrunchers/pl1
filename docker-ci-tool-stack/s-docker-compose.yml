@@ -1,0 +1,17 @@
+version: '2'
+services:
+ samba:
+    container_name: samba
+    image: samba-ad-dc
+    tty: true
+    hostname: samba
+    domainname: test.local
+    environment:
+        - SAMBA_REALM=test.local
+        - SAMBA_DOMAIN=test
+        - SAMBA_HOST_IP=172.17.0.1
+        - SAMBA_PASSWORD=Password1!
+    volumes:
+        - /home/alan/devel/docker-volumes/samba:/var/lib/samba
+
+

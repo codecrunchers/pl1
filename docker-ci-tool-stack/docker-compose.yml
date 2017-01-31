@@ -5,6 +5,24 @@ networks:
     driver: bridge
 
 services:
+
+ samba:
+  container_name: samba
+  image: samba-ad-dc
+  tty: true
+  hostname: samba
+  domainname: test.local
+  environment:
+    - SAMBA_REALM=test.local
+    - SAMBA_DOMAIN=test
+    - SAMBA_HOST_IP=172.17.0.1
+    - SAMBA_PASSWORD=Password1!
+  volumes:
+    - samba:/var/lib/samba
+  networks:
+    - prodnetwork
+
+
  nexus:
   hostname: nexus
   image:  sonatype/nexus3
@@ -81,6 +99,8 @@ services:
   restart: always
   image: sameersbn/postgresql:9.5-3
   volumes:
+      #The Z option tells Docker to label the content with a private unshared label. Only the current container can use a private volume.
+      #The z option tells Docker that two containers share the volume content
    - $DOCKER_VOLHOME/postgresql:/var/lib/postgresql:Z
   environment:
    - DB_USER=gitlab
@@ -188,3 +208,4 @@ volumes:
  sonardb_data:
  sonardb_postgresql:
  nexus_data:
+ samba:
