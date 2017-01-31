@@ -119,22 +119,22 @@ services:
   ports:
    - "10080:80"
    - "10022:22"
+   - "5000:5000"
   volumes:
    - gitlab:/home/git/data:Z
   environment:
    - DEBUG=true
-   - DEBUG=true
    - LDAP_ENABLED=true
-   - LDAP_HOST=samba
+     #   - LDAP_HOST=samba
    - LDAP_LABEL=Samba
    - LDAP_PORT=3268
-   - LDAP_METHOD=plain
-   - LDAP_BIND_DN='cn=adauth,cn=Users,dc=TEST,dc=local'
+     #   - LDAP_METHOD=plain
+   - LDAP_BIND_DN=cn=adauth,cn=Users,dc=TEST,dc=local
    - LDAP_PASS=Password1!
-   - LDAP_ACTIVE_DIRECTORY=true
-   - LDAP_ALLOW_USERNAME_OR_EMAIL_LOGIN=true
-   - LDAP_BLOCK_AUTO_CREATED_USERS=false
-   - LDAP_BASE='cn=Users,dc=TEST,dc=local'
+     #   - LDAP_ACTIVE_DIRECTORY=true
+     #   - LDAP_ALLOW_USERNAME_OR_EMAIL_LOGIN=true
+     #   - LDAP_BLOCK_AUTO_CREATED_USERS=false
+     #   - LDAP_BASE=cn=Users,dc=TEST,dc=local
 
    - DB_ADAPTER=postgresql
    - DB_HOST=postgresql
@@ -146,9 +146,8 @@ services:
    - REDIS_HOST=redis
    - REDIS_PORT=6379
 
-   - TZ=Asia/Kolkata
-   - GITLAB_TIMEZONE=Kolkata
-
+   - TZ=Europe/Dublin
+   - GITLAB_TIMEZONE=Dublin
    - GITLAB_HTTPS=false
    - SSL_SELF_SIGNED=false
 
@@ -174,21 +173,8 @@ services:
    - GITLAB_BACKUP_TIME=01:00
 
    - SMTP_ENABLD=false
-   - SMTP_DOMAIN=www.example.com
-   - SMTP_HOST=smtp.gmail.com
-   - SMTP_PORT=587
-   - SMTP_USER=mailer@example.com
-   - SMTP_PASS=password
-   - SMTP_STARTTLS=true
-   - SMTP_AUTHENTICATION=login
 
    - IMAP_ENABLED=false
-   - IMAP_HOST=imap.gmail.com
-   - IMAP_PORT=993
-   - IMAP_USER=mailer@example.com
-   - IMAP_PASS=password
-   - IMAP_SSL=true
-   - IMAP_STARTTLS=false
 
    - OAUTH_ENABLED=true
    - OAUTH_AUTO_SIGN_IN_WITH_PROVIDER=
